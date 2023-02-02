@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { IUser } from "../models/IUser";
+import { IDeleteUser, IUser } from "../models/IUser";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -26,6 +26,29 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    editUser: build.mutation<IUser, IUser>({
+      query: (user) => ({
+        url: `users`,
+        method: "PUT",
+        body: user,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    deleteUsers: build.mutation<IDeleteUser, IDeleteUser>({
+      query: (users) => ({
+        url: `users/`,
+        method: "DELETE",
+        body: users
+      }),
+      invalidatesTags: ["User"],
+    }),
+    deleteUser: build.mutation<IUser, number>({
+      query: (id) => ({
+        url: `users/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -33,4 +56,7 @@ export const {
   useFetchAllUsersQuery,
   useFetchOneUserQuery,
   useAddUserMutation,
+  useEditUserMutation,
+  useDeleteUsersMutation,
+  useDeleteUserMutation
 } = userApi;

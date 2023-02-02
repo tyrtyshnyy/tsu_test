@@ -1,17 +1,17 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { dogApi } from "../services/DogService";
 import { userApi } from "../services/UserService";
-import { userReducer } from "./reducers/UsersSlice";
 
 const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
-  userReducer
+  [dogApi.reducerPath]: dogApi.reducer
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(userApi.middleware),
+      getDefaultMiddleware().concat([userApi.middleware, dogApi.middleware]),
   });
 };
 

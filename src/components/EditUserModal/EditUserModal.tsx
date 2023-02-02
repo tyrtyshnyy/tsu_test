@@ -3,31 +3,40 @@ import { useFormik } from "formik";
 import { FC, useState } from "react";
 import { Button, Col, Form, Modal, Row, Spinner } from "react-bootstrap";
 import * as yup from "yup";
-import { useAddUserMutation } from "../../services/UserService";
+import { IUser } from "../../models/IUser";
+import { useEditUserMutation } from "../../services/UserService";
 import AddAvatarModal from "../AddAvatarModal/AddAvatarModal";
 
-interface IAddUserModalProps {
+interface IEditUserModalProps {
   onClose: () => void;
+  user: IUser;
 }
-const AddUserModal: FC<IAddUserModalProps> = ({ onClose }) => {
-  const [addUser, { isLoading }] = useAddUserMutation();
+const EditUserModal: FC<IEditUserModalProps> = ({ onClose, user }) => {
+  const [editUser, { isLoading }] = useEditUserMutation();
   const [addAvarModalVisible, setAddAvarModalVisible] = useState(false);
-  const [urlAvatar, setUrlAvatar] = useState("");
+  const [urlAvatar, setUrlAvatar] = useState(user.avatar);
   const closeModal = () => {
     if (onClose) onClose();
   };
+
+  const handleUrlAvatar = (url: string) => {
+    setUrlAvatar(url);
+  };
+  console.log(user);
+
   const validationSchema = yup.object().shape({
     firstName: yup.string().required("Введите имя"),
     lastName: yup.string().required("Введите фамилию"),
     email: yup
       .string()
-      .email("Почта некорректна")
+      .email("Почта невалидна")
       .test("error", "Почта уже используется", function (email) {
         return new Promise((resolve, reject) => {
           axios
             .post<string>(
               `https://jovial-snickerdoodle-b85d1f.netlify.app/.netlify/functions/index/users/email`,
               {
+                ids: user._id,
                 email: email,
               }
             )
@@ -44,7 +53,6 @@ const AddUserModal: FC<IAddUserModalProps> = ({ onClose }) => {
   });
 
   interface IValuesForm {
-    createDate: string;
     avatar?: string;
     firstName: string;
     lastName: string;
@@ -53,37 +61,30 @@ const AddUserModal: FC<IAddUserModalProps> = ({ onClose }) => {
     about?: string;
   }
   const initialValues: IValuesForm = {
-    firstName: "",
-    lastName: "",
-    createDate: new Date().toISOString(),
-    email: "",
-    avatar: "",
-    patronymic: "",
-    about: "",
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    avatar: user.avatar,
+    patronymic: user.patronymic,
+    about: user.about,
   };
 
   const handleAddUser = async (values: IValuesForm) => {
     try {
-      await addUser({
+      await editUser({
+        _id: user._id,
         firstName: values.firstName,
         lastName: values.lastName,
         patronymic: values.patronymic,
-        createDate: values.createDate,
         email: values.email,
         avatar: urlAvatar,
-        about: "",
+        createDate: user.createDate,
+        about: values.about,
       });
-      setUrlAvatar("");
       closeModal();
-      
     } catch (error) {
       console.log(error);
     }
-  };
-console.log(urlAvatar);
-
-  const handleUrlAvatar = (url: string) => {
-    setUrlAvatar(url);
   };
 
   const formik = useFormik({
@@ -145,7 +146,6 @@ console.log(urlAvatar);
                 <Button
                   onClick={() => setAddAvarModalVisible(true)}
                   variant="outline-primary"
-                  disabled={!!urlAvatar}
                 >
                   {!!urlAvatar ? "Аватар выбран" : "Выбрать аватар"}
                 </Button>
@@ -167,6 +167,14 @@ console.log(urlAvatar);
               <Form.Control.Feedback type="invalid">
                 {formik.errors.email}
               </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="about">
+              <Form.Label>Информация</Form.Label>
+              <Form.Control
+                as="textarea"
+                value={formik.values.about}
+                onChange={formik.handleChange}
+              />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -208,4 +216,4 @@ console.log(urlAvatar);
   );
 };
 
-export default AddUserModal;
+export default EditUserModal;

@@ -15,3 +15,12 @@ export interface IUser {
 	// Текстовая информация о пользователей
 	about?: string
 }
+
+export interface ICheckEmail {
+  id?: number;
+  email: string;
+}
+
+export interface IDeleteUser {
+  ids: number[]
+}
