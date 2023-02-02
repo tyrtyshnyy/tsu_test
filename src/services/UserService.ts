@@ -3,7 +3,10 @@ import { IDeleteUser, IUser } from "../models/IUser";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://jovial-snickerdoodle-b85d1f.netlify.app/.netlify/functions/index/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl:
+      "https://superlative-belekoy-52ab8b.netlify.app/.netlify/functions/index/",
+  }),
   tagTypes: ["User"],
   endpoints: (build) => ({
     fetchAllUsers: build.query<IUser[], string>({
@@ -38,7 +41,7 @@ export const userApi = createApi({
       query: (users) => ({
         url: `users/`,
         method: "DELETE",
-        body: users
+        body: users,
       }),
       invalidatesTags: ["User"],
     }),
@@ -58,5 +61,5 @@ export const {
   useAddUserMutation,
   useEditUserMutation,
   useDeleteUsersMutation,
-  useDeleteUserMutation
+  useDeleteUserMutation,
 } = userApi;

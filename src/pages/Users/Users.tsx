@@ -70,7 +70,9 @@ const Users: FC<IUsersProps> = () => {
             );
           })}
         </div>
-        {users?.length == 0 && <h2 className="text-center">Список пользователей пуст.</h2>}
+        {users?.length == 0 && (
+          <h2 className="text-center">Список пользователей пуст.</h2>
+        )}
       </Container>
 
       {addUserModalVisible && (

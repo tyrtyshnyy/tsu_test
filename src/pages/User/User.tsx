@@ -35,13 +35,16 @@ const User = () => {
     <Container className="bg-light  w-100 vh-100 position-relative">
       <div className="row p-3">
         <div className="col-md-4 col-sm-12 ">
-            <Image
-              className="w-100 mb-2"
-              alt="photo"
-              src={avatar ? avatar : picPhoto}
-            />
+          <Image
+            className="w-100 mb-2"
+            alt="photo"
+            src={avatar ? avatar : picPhoto}
+          />
         </div>
-        <div className="col-md-5 col-sm-12 text-center" style={{wordBreak: "break-all"}}>
+        <div
+          className="col-md-5 col-sm-12 text-center"
+          style={{ wordBreak: "break-all" }}
+        >
           <div>
             <p className="fs-6 my-0 lh-1.1 opacity-50">ФИО:</p>
             <p className="fs-2 lh-1 ">

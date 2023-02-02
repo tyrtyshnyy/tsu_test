@@ -32,7 +32,7 @@ const DeleteUsersModal: FC<IDeleteUsersModalProps> = ({
   const initialValues: IValuesForm = {
     id: 0,
   };
-  const usersId = usersOnDelete?.map((user) => user._id) as number[]
+  const usersId = usersOnDelete?.map((user) => user._id) as number[];
   console.log(usersId);
 
   const handleDeleteUser = async (values: IValuesForm) => {

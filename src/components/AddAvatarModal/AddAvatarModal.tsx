@@ -65,12 +65,7 @@ const AddAvatarModal: FC<IAddAvatarModalProps> = ({
               onLoad={() => setLoadingPhoto(true)}
             />
 
-            {!loadingPhoto && (
-              <Spinner
-                animation="grow"
-                size="sm"
-              />
-            )}
+            {!loadingPhoto && <Spinner animation="grow" size="sm" />}
           </Card>
           <Button onClick={generatePhoto}>Сгенерировать</Button>
         </Modal.Body>

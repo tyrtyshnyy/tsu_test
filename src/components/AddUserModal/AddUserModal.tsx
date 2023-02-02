@@ -75,12 +75,11 @@ const AddUserModal: FC<IAddUserModalProps> = ({ onClose }) => {
       });
       setUrlAvatar("");
       closeModal();
-      
     } catch (error) {
       console.log(error);
     }
   };
-console.log(urlAvatar);
+  console.log(urlAvatar);
 
   const handleUrlAvatar = (url: string) => {
     setUrlAvatar(url);
