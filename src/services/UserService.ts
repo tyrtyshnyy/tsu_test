@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { IDeleteUser, IUser } from "../models/IUser";
+import { API_URL } from "../config";
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      "https://superlative-belekoy-52ab8b.netlify.app/.netlify/functions/index/",
+    baseUrl: API_URL,
   }),
   tagTypes: ["User"],
   endpoints: (build) => ({
